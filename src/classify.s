@@ -77,7 +77,7 @@ classify:
     mv a2, s4 # set argument 3 for the read_matrix function
     
     jal read_matrix
-    
+
     mv s0, a0 # setting s0 to the m0, aka the return value of read_matrix
     
     lw a0, 0(sp)
@@ -144,7 +144,7 @@ classify:
     mv a2, s8 # set argument 3 for the read_matrix function
     
     jal read_matrix
-    
+
     mv s2, a0 # setting s2 to the input matrix, aka the return value of read_matrix
     
     lw a0, 0(sp)
@@ -167,13 +167,20 @@ classify:
     lw t0, 0(s3)
     lw t1, 0(s8)
     # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    # code start
+    li a0, 0
+multuply0:
+    add a0, a0, t1
+    addi t0, t0, -1
+    bne t0, zero, multuply0
+    # code end
+
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
     mv s9, a0 # move h to s9
-    
+
     mv a6, a0 # h 
-    
     mv a0, s0 # move m0 array to first arg
     lw a1, 0(s3) # move m0 rows to second arg
     lw a2, 0(s4) # move m0 cols to third arg
@@ -181,9 +188,9 @@ classify:
     mv a3, s2 # move input array to fourth arg
     lw a4, 0(s7) # move input rows to fifth arg
     lw a5, 0(s8) # move input cols to sixth arg
-    
-    jal matmul
-    
+
+    jal matmul  # [20, 18, -14] 3*1  a6
+
     lw a0, 0(sp)
     lw a1, 4(sp)
     lw a2, 8(sp)
@@ -199,15 +206,21 @@ classify:
     
     sw a0, 0(sp)
     sw a1, 4(sp)
-    
+
     mv a0, s9 # move h to the first argument
     lw t0, 0(s3)
     lw t1, 0(s8)
     # mul a1, t0, t1 # length of h array and set it as second argument
     # FIXME: Replace 'mul' with your own implementation
-    
+    # code start
+    li a1, 0
+multuply1:
+    add a1, a1, t1
+    addi t0, t0, -1
+    bne t0, zero, multuply1
+    # code end
     jal relu
-    
+
     lw a0, 0(sp)
     lw a1, 4(sp)
     
@@ -226,7 +239,16 @@ classify:
     
     lw t0, 0(s3)
     lw t1, 0(s6)
+
     # mul a0, t0, t1 # FIXME: Replace 'mul' with your own implementation
+    # code start
+    li a0, 0
+multuply2:
+    add a0, a0, t1
+    addi t0, t0, -1
+    bne t0, zero, multuply2
+    # code end
+
     slli a0, a0, 2
     jal malloc 
     beq a0, x0, error_malloc
@@ -237,13 +259,20 @@ classify:
     mv a0, s1 # move m1 array to first arg
     lw a1, 0(s5) # move m1 rows to second arg
     lw a2, 0(s6) # move m1 cols to third arg
-    
+
     mv a3, s9 # move h array to fourth arg
     lw a4, 0(s3) # move h rows to fifth arg
     lw a5, 0(s8) # move h cols to sixth arg
-    
+
+    # mv a0, s9
+    # mv a1, a4
+    # mv a2, a5
+    # jal print_int_array   [20, 18, 0] s9
+
     jal matmul
-    
+    # mv a0, a6
+    # mv a2, a5
+    # jal print_int_array   #[-34, 879, -1076, 74, 394, 1]  5*1
     lw a0, 0(sp)
     lw a1, 4(sp)
     lw a2, 8(sp)
@@ -286,9 +315,17 @@ classify:
     mv a0, s10 # load o array into first arg
     lw t0, 0(s3)
     lw t1, 0(s6)
+    
     mul a1, t0, t1 # load length of array into second arg
     # FIXME: Replace 'mul' with your own implementation
-    
+    # code start
+    li a1, 0
+multuply3:
+    add a1, a1, t1
+    addi t0, t0, -1
+    bne t0, zero, multuply3
+    # code end
+
     jal argmax
     
     mv t0, a0 # move return value of argmax into t0

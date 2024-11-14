@@ -29,7 +29,21 @@ relu:
 
 loop_start:
     # TODO: Add your own implementation
-
+    # code start
+    beq t1, a1, done
+    lw t0, 0(a0)
+    blt t0, zero, get_max
+    addi t1, t1, 1
+    addi a0, a0, 4
+    j loop_start
+get_max:
+    sw zero, 0(a0)
+    addi t1, t1, 1
+    addi a0, a0, 4
+    j loop_start
+done:
+    jr ra
+    # code end
 error:
     li a0, 36          
     j exit          
