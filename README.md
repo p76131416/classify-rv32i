@@ -43,7 +43,7 @@ Initially, I used a counter to track the number of times the multiplicand was ac
 
 - **overcome**
 
-To debug this, I used `print_int_array` to print the matrices step by step, which eventually led me to identify that the issue was in the dot product implementation. I resolved this by ensuring that the multiplier was greater than or equal to the multiplicand for multiplication to proceed. If the multiplier was non-negative, the multiplication proceeded directly. If the multiplier was negative, both values were negated before performing the multiplication.
+To debug this, I used `print_int_array` to print the matrices step by step, which eventually led me to identify that the issue was in the dot product implementation. I resolved this by ensuring that the multiplier was greater than or equal to the multiplicand for multiplication to proceed. If the multiplier was non-negative, the multiplication proceeded directly. If the multiplier was negative, both values were negated before performing the multiplication. I also changed the test cases in `unittests.py` related to dot product calculations to verify the correctness of the newly implemented function.
 
 ## matmul.s
 This is a function designed to operate matrix multiplication.
